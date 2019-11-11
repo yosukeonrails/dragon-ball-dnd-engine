@@ -28,12 +28,10 @@ class DragonBallAppContainer extends React.Component {
 
   dispatchOnElementDropped(item) {
     this.setState(prevState => {
-      console.log(prevState);
       let targetId = this.state.target.id;
       let box = prevState.boxes[targetId];
-      console.log(box);
+
       box.balls.push(item);
-      console.log(box);
       //   let boxes = [...prevState.boxes];
       //   boxes[targetId] = box;
       return {
@@ -53,6 +51,10 @@ class DragonBallAppContainer extends React.Component {
     return this.state.boxes.map((box, index) => {
       return (
         <DragonBallTarget
+          onDragonDrop={item => {
+            this.dispatchOnElementDropped(item);
+          }}
+          parentState={this.state}
           updateGlobalState={this.updateGlobalState}
           component={<Box id={index} balls={box.balls} />}
         />
@@ -64,9 +66,6 @@ class DragonBallAppContainer extends React.Component {
     return this.state.balls.map((ball, index) => {
       return (
         <DragonBallElement
-          onDragonDrop={item => {
-            this.dispatchOnElementDropped(item);
-          }}
           onDragon={() => {
             console.log("dragging 1");
           }}

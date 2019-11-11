@@ -70,8 +70,10 @@ class DragonBallElement extends React.Component {
   }
 
   render() {
+    const pointer = !this.props.parentState.target
+      ? {}
+      : { pointerEvents: "none" };
     const item = this.props.component.props.item;
-
     return (
       <div
         style={{ display: "inline-block" }}
@@ -82,9 +84,9 @@ class DragonBallElement extends React.Component {
       >
         {this.props.component}
         <div
-          style={this.returnElementStyle()}
+          style={{ ...this.returnElementStyle(), ...pointer }}
           onMouseUp={() => {
-            this.props.onDragonDrop(this.props.parentState.elementBeingDragged);
+            console.log("mouse up at ball");
             this.handleMouseUp();
           }}
         >
