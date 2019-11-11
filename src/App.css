@@ -20,3 +20,29 @@
 .App-link {
   color: #09d3ac;
 }
+
+.box {
+  float: left;
+  background-color: antiquewhite;
+  border: 1px solid blue;
+  width: 15em;
+  height: 15em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ball {
+  position: relative;
+  background-color: orange;
+  width: 5em;
+  height: 5em;
+  border-radius: 50%;
+}
+
+.ball-container {
+  background-color: white;
+  width: 100%;
+  height: 10em;
+  border: 1px solid black;
+  bottom: 0;
+}
