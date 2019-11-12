@@ -1,6 +1,7 @@
 import React from "react";
 import Ball from "./Ball";
 import DragonBallElement from "./DragonBallElement";
+import DragonBallTarget from "./DragonBallTarget";
 
 class Box extends React.Component {
   constructor(props) {
@@ -18,27 +19,12 @@ class Box extends React.Component {
     console.log("update state");
   }
 
-  renderBalls() {
-    return this.props.balls.map(ball => {
-      return (
-        <DragonBallElement
-          onDragonDrop={item => {
-            this.dispatchOnElementDropped(item);
-          }}
-          onDragon={() => {
-            console.log("dragging 1");
-          }}
-          parentState={this.state}
-          updateGlobalState={this.updateGlobalState}
-          component={<Ball id={ball.id} item={ball} />}
-        />
-      );
-    });
-  }
   render() {
     return (
       <div>
-        <div className="box">{this.renderBalls()}</div>
+        <div className="box">
+          <DragonBallTarget globalState={this.props.globalState} />
+        </div>
       </div>
     );
   }

@@ -10,26 +10,28 @@ class DragonBallTarget extends React.Component {
       height: 0
     };
   }
-  componentDidMount() {
-    var width = document.getElementById("target-wrapper").offsetWidth;
-    var height = document.getElementById("target-wrapper").offsetHeight;
-    this.setState({
-      width,
-      height
-    });
-  }
+  // componentDidMount() {
+  //   var width = document.getElementById("target-wrapper").offsetWidth;
+  //   var height = document.getElementById("target-wrapper").offsetHeight;
+  //   this.setState({
+  //     width,
+  //     height
+  //   });
+  // }
 
-  handleMouseUp() {
-    this.props.onDragonDrop(this.props.parentState.elementBeingDragged);
-    this.props.updateGlobalState({
-      elementBeingDragged: null
-    });
-  }
+  // handleMouseUp() {
+  //   this.props.onDragonDrop(this.props.parentState.elementBeingDragged);
+  //   this.props.updateGlobalState({
+  //     elementBeingDragged: null
+  //   });
+  // }
 
   render() {
+    console.log(this.props.globalState);
+
     return (
       <div>
-        <div
+        {/* <div
           style={{
             display: "inline-block",
             flexDirection: "column"
@@ -73,7 +75,7 @@ class DragonBallTarget extends React.Component {
               {this.props.component}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

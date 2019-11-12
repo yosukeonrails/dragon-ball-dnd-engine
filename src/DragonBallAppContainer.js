@@ -49,31 +49,13 @@ class DragonBallAppContainer extends React.Component {
 
   renderBoxes() {
     return this.state.boxes.map((box, index) => {
-      return (
-        <DragonBallTarget
-          onDragonDrop={item => {
-            this.dispatchOnElementDropped(item);
-          }}
-          parentState={this.state}
-          updateGlobalState={this.updateGlobalState}
-          component={<Box id={index} balls={box.balls} />}
-        />
-      );
+      return <Box item={box} id={box.id} />;
     });
   }
 
   renderBalls() {
     return this.state.balls.map((ball, index) => {
-      return (
-        <DragonBallElement
-          onDragon={() => {
-            console.log("dragging 1");
-          }}
-          parentState={this.state}
-          updateGlobalState={this.updateGlobalState}
-          component={<Ball id={ball.id} item={ball} />}
-        />
-      );
+      return <Ball id={ball.id} item={ball} />;
     });
   }
 
@@ -83,35 +65,6 @@ class DragonBallAppContainer extends React.Component {
       <div>
         <div className="ball-container">{this.renderBalls()}</div>
         <div className="box-container">{this.renderBoxes()}</div>
-        {/* <div>
-          <DragonBallTarget
-            onDragonDrop={() => {
-              console.log("dropped 1");
-            }}
-            updateGlobalState={this.updateGlobalState}
-            component={<Box id="1" />}
-          />
-        </div>
-
-        <div>
-          <DragonBallTarget
-            onDragonDrop={() => {
-              console.log("dropped 2");
-            }}
-            updateGlobalState={this.updateGlobalState}
-            component={<Box id="2" />}
-          />
-        </div>
-
-        <div>
-          <DragonBallTarget
-            onDragonDrop={() => {
-              console.log("dropped 3");
-            }}
-            updateGlobalState={this.updateGlobalState}
-            component={<Box id="3" />}
-          />
-        </div> */}
       </div>
     );
   }

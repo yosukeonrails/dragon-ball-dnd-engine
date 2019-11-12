@@ -7,10 +7,10 @@ class DragonBallElement extends React.Component {
     this.state = {
       elementX: null,
       elementY: null,
-      dragging: false
+      dragging: false,
+      elementBeingDragged: false
     };
 
-    this.handleMouseDown = this.handleMouseDown.bind(this);
     this.updateMousePosition = this.updateMousePosition.bind(this);
   }
 
@@ -18,8 +18,22 @@ class DragonBallElement extends React.Component {
     window.addEventListener("mousemove", this.updateMousePosition);
   }
 
+  handleMouseDown(e) {
+    console.log(
+      this._reactInternalFiber.child._debugOwner.memoizedProps.parentClass
+    );
+    // let all of the target class know that something is being dragged
+    this.props.updateGlobalState({
+      elementBeingDragged: this.props.item
+    });
+
+    this.setState({
+      elementBeingDragged: this.props.item
+    });
+  }
+
   returnElementStyle() {
-    if (this.props.parentState.elementBeingDragged) {
+    if (this.state.elementBeingDragged) {
       return {
         display: "block",
         position: "fixed",
@@ -37,62 +51,29 @@ class DragonBallElement extends React.Component {
     let event = window.event;
     let x = event.pageX;
     let y = event.pageY;
+
     this.setState({
       elementX: x,
       elementY: y
     });
   }
 
-  elementWasDropped() {
-    this.setState({
-      dragging: false
-    });
-  }
-
-  handleMouseUp() {
-    this.props.updateGlobalState({
-      elementBeingDragged: null
-    });
-  }
-
-  handleMouseDown(bool) {
-    this.setState({
-      dragging: bool
-    });
-
-    // Here we need a method that will update
-    // the global state
-    this.props.onDragon();
-    this.props.updateGlobalState({
-      elementBeingDragged: this.props.component.props.item,
-      data: {}
-    });
-  }
-
   render() {
-    const pointer = !this.props.parentState.target
-      ? {}
-      : { pointerEvents: "none" };
-    const item = this.props.component.props.item;
+    const style = {
+      width: "50px",
+      height: "50px",
+      backgroundColor: "#6967e6db",
+      ...this.returnElementStyle()
+    };
     return (
       <div
-        style={{ display: "inline-block" }}
-        onMouseDown={() => {
-          console.log(item);
-          this.handleMouseDown(true);
+        onMouseUp={() => {
+          this.setState({
+            elementBeingDragged: null
+          });
         }}
-      >
-        {this.props.component}
-        <div
-          style={{ ...this.returnElementStyle(), ...pointer }}
-          onMouseUp={() => {
-            console.log("mouse up at ball");
-            this.handleMouseUp();
-          }}
-        >
-          {this.props.component}
-        </div>
-      </div>
+        style={style}
+      ></div>
     );
   }
 }

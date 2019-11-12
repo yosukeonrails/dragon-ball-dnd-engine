@@ -37,6 +37,7 @@
   width: 5em;
   height: 5em;
   border-radius: 50%;
+  float: left;
 }
 
 .ball-container {
