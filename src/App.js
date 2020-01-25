@@ -76,7 +76,14 @@ class App extends React.Component {
   render() {
     console.log(this.state);
     return (
-      <div>
+      <div
+        onMouseUp={() => {
+          console.log("mouse is up ");
+        }}
+        onMouseMove={() => {
+          console.log("mouse moved ");
+        }}
+      >
         <div className="ball-container">{this.renderBalls()}</div>
         <div className="box-container">{this.renderBoxes()}</div>
       </div>

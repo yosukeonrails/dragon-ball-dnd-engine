@@ -60,11 +60,14 @@ class DragonBallElement extends React.Component {
 
   render() {
     const style = {
-      width: "50px",
-      height: "50px",
       backgroundColor: "#6967e6db",
       ...this.returnElementStyle()
     };
+
+    let ghost = () => {
+      return this.props.ghostComponent;
+    };
+
     return (
       <div
         onMouseUp={() => {
@@ -73,7 +76,9 @@ class DragonBallElement extends React.Component {
           });
         }}
         style={style}
-      ></div>
+      >
+        <div className="ball"></div>
+      </div>
     );
   }
 }

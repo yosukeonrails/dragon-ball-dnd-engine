@@ -8,25 +8,31 @@ class Ball extends React.Component {
 
   render() {
     return (
-      <div
-        className="ball"
-        onMouseDown={e => {
-          this.handleMouseDown(e);
-        }}
-      >
-        <DragonBallElement
-          ref="draggonChild"
-          parentClass="ball"
-          item={this.props.item}
-          updateGlobalState={state => {
-            console.log("let everyone know this is being dragged");
-
-            this.props.updateGlobalState(state);
-          }}
-        />
-        <div>
-          <StarIcon />
-        </div>
+      <div>
+        {this.props.ghost ? (
+          <div className="ball"></div>
+        ) : (
+          <div
+            className="ball"
+            onMouseDown={e => {
+              this.handleMouseDown(e);
+            }}
+          >
+            <DragonBallElement
+              ref="draggonChild"
+              parentClass="ball"
+              item={this.props.item}
+              ghostComponent={<Ball ghost={true} />}
+              updateGlobalState={state => {
+                console.log("let everyone know this is being dragged");
+                this.props.updateGlobalState(state);
+              }}
+            />
+            <div>
+              <StarIcon />
+            </div>
+          </div>
+        )}
       </div>
     );
   }
