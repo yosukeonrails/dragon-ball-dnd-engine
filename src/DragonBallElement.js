@@ -19,6 +19,7 @@ class DragonBallElement extends React.Component {
   }
 
   handleMouseDown(e) {
+    console.log("PARENT");
     console.log(
       this._reactInternalFiber.child._debugOwner.memoizedProps.parentClass
     );
@@ -51,10 +52,11 @@ class DragonBallElement extends React.Component {
     let event = window.event;
     let x = event.pageX;
     let y = event.pageY;
+    let halfOfInitialWidth = this.refs.child.parentNode.clientWidth;
 
     this.setState({
-      elementX: x,
-      elementY: y
+      elementX: x - halfOfInitialWidth / 2,
+      elementY: y - halfOfInitialWidth / 2
     });
   }
 
@@ -69,15 +71,17 @@ class DragonBallElement extends React.Component {
     };
 
     return (
-      <div
-        onMouseUp={() => {
-          this.setState({
-            elementBeingDragged: null
-          });
-        }}
-        style={style}
-      >
-        <div className="ball"></div>
+      <div ref="child">
+        <div
+          onMouseUp={() => {
+            this.setState({
+              elementBeingDragged: null
+            });
+          }}
+          style={style}
+        >
+          {ghost()}
+        </div>
       </div>
     );
   }
