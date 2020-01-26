@@ -8,7 +8,9 @@ class DragonBallElement extends React.Component {
       elementX: null,
       elementY: null,
       dragging: false,
-      elementBeingDragged: false
+      elementBeingDragged: false,
+      initialX: this.props.initialCoordinates.x,
+      initialY: this.props.initialCoordinates.y
     };
 
     this.updateMousePosition = this.updateMousePosition.bind(this);
@@ -19,10 +21,13 @@ class DragonBallElement extends React.Component {
   }
 
   handleMouseDown(e) {
-    console.log("PARENT");
-    console.log(
-      this._reactInternalFiber.child._debugOwner.memoizedProps.parentClass
-    );
+    let event = window.event;
+    let x = event.pageX;
+    let y = event.pageY;
+
+    // console.log(
+    //   this._reactInternalFiber.child._debugOwner.memoizedProps.parentClass
+    // );
     // let all of the target class know that something is being dragged
     this.props.updateGlobalState({
       elementBeingDragged: this.props.item
@@ -52,15 +57,40 @@ class DragonBallElement extends React.Component {
     let event = window.event;
     let x = event.pageX;
     let y = event.pageY;
-    let halfOfInitialWidth = this.refs.child.parentNode.clientWidth;
 
-    this.setState({
-      elementX: x - halfOfInitialWidth / 2,
-      elementY: y - halfOfInitialWidth / 2
-    });
+    let initalWidth = this.refs.child.parentNode.clientWidth;
+
+    // this.setState({
+    //   elementX: x - halfOfInitialWidth / 2,
+    //   elementY: y - halfOfInitialWidth / 2
+    // });
+
+    if (this.state.elementBeingDragged) {
+      let { initialX, initialY } = this.state;
+
+      let x_difference = initialX - x;
+      let y_difference = initialY - y;
+
+      if (Math.abs(x_difference) >= initalWidth) {
+        console.log("update x position");
+        this.setState({
+          initialX: x,
+          elementX: x - initalWidth / 2
+        });
+      }
+
+      if (Math.abs(y_difference) >= 50) {
+        console.log("update y position");
+        this.setState({
+          initialY: y,
+          elementY: y - initalWidth / 2
+        });
+      }
+    }
   }
 
   render() {
+    // console.log(this.props.initialCoordinates);
     const style = {
       backgroundColor: "#6967e6db",
       ...this.returnElementStyle()

@@ -5,6 +5,10 @@ class Ball extends React.Component {
   constructor(props) {
     super(props);
     this.myRef = React.createRef();
+    this.state = {
+      initialX: null,
+      initialY: null
+    };
   }
 
   componentDidMount() {
@@ -24,6 +28,15 @@ class Ball extends React.Component {
   };
 
   handleMouseDown(e) {
+    let event = window.event;
+    let x = event.pageX;
+    let y = event.pageY;
+    console.log("Initial state");
+    console.log(x, y);
+    this.setState({
+      initialX: x,
+      initialY: y
+    });
     this.refs.draggonChild.handleMouseDown(e);
   }
 
@@ -43,6 +56,10 @@ class Ball extends React.Component {
             <DragonBallElement
               ref="draggonChild"
               parentClass="ball"
+              initialCoordinates={{
+                x: this.state.initialX,
+                y: this.state.initialY
+              }}
               item={this.props.item}
               refCallback={this.refCallback}
               ghostComponent={<Ball ghost={true} />}

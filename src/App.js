@@ -63,6 +63,8 @@ class App extends React.Component {
     return this.state.balls.map((ball, index) => {
       return (
         <Ball
+          globalX={this.state.globalX}
+          globalY={this.state.globalY}
           id={ball.id}
           updateGlobalState={state => {
             this.updateGlobalState(state);
@@ -74,14 +76,17 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div
-        onMouseUp={() => {
-          console.log("mouse is up ");
-        }}
+        onMouseUp={() => {}}
         onMouseMove={() => {
-          console.log("mouse moved ");
+          let event = window.event;
+          let x = event.pageX;
+          let y = event.pageY;
+          this.setState({
+            globalX: x,
+            globalY: y
+          });
         }}
       >
         <div className="ball-container">{this.renderBalls()}</div>

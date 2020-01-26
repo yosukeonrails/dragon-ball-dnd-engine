@@ -23,7 +23,7 @@ class Box extends React.Component {
     return (
       <div>
         <div className="box">
-          <DragonBallTarget globalState={this.props.globalState} />
+          {/* <DragonBallTarget globalState={this.props.globalState} /> */}
         </div>
       </div>
     );
