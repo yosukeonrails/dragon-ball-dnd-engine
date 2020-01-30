@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import StarIcon from "@material-ui/icons/Star";
 import DragonBallElement from "./DragonBallElement";
+import { red } from "@material-ui/core/colors";
 class Ball extends React.Component {
   constructor(props) {
     super(props);
@@ -13,14 +14,46 @@ class Ball extends React.Component {
     };
   }
 
+  componentWillMount() {
+    window.addEventListener(
+      "resize",
+      () => {
+        this.getMeasurements();
+      },
+      true
+    );
+  }
+
+  getMeasurements = () => {
+    let ref = this.refs.myReactRef;
+    if (ref) {
+      if (ref) {
+        let rect = ref.getBoundingClientRect();
+        let measurements = {
+          width: rect.width,
+          top: rect.top,
+          left: rect.left
+        };
+        console.log(measurements);
+        return measurements;
+      }
+    }
+    return;
+  };
+
   refCallback = element => {
+    console.log("callback called? ");
+    console.log(this.state.measurements);
     if (element && this.state.measurements == null) {
       let rect = element.getBoundingClientRect();
+      console.log(rect);
+
       let measurements = {
         width: rect.width,
         top: rect.top,
         left: rect.left
       };
+
       console.log(measurements);
 
       this.setState({
@@ -51,7 +84,8 @@ class Ball extends React.Component {
         ) : (
           <div
             className="ball"
-            ref={this.refCallback}
+            // ref={this.refCallback}
+            ref="myReactRef"
             onMouseDown={e => {
               this.handleMouseDown(e);
             }}
@@ -71,6 +105,7 @@ class Ball extends React.Component {
               ref="draggonChild"
               parentClass="ball"
               item={this.props.item}
+              getMeasurements={this.getMeasurements}
               measurements={this.state.measurements}
               ghostComponent={<Ball ghost={true} />}
               updateGlobalState={state => {

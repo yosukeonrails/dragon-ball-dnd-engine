@@ -28,17 +28,16 @@ class DragonBallElement extends React.Component {
 
     if (e.touches) {
       event = e.touches[0];
-      console.log(event);
     }
 
     let x = event.pageX;
     let y = event.pageY;
-    console.log(x, y);
+
     this.props.updateGlobalState({
       elementBeingDragged: this.props.item
     });
 
-    let { measurements } = this.props;
+    let measurements = this.props.getMeasurements();
 
     this.setState({
       elementBeingDragged: this.props.item,
@@ -82,18 +81,15 @@ class DragonBallElement extends React.Component {
   updateMousePosition(e) {
     e.preventDefault();
 
-    console.log("touch move");
     let event = window.event;
 
     if (e.touches) {
       event = e.touches[0];
-      console.log(event);
     }
 
     let x = event.pageX;
     let y = event.pageY;
 
-    console.log(x, y);
     if (this.state.elementBeingDragged) {
       let { currentX, currentY } = this.state;
 
@@ -150,10 +146,6 @@ class DragonBallElement extends React.Component {
       <div ref="child">
         <div
           onMouseLeave={() => {
-            // let event = window.event;
-            // let x = event.pageX;
-            // let y = event.pageY;
-
             this.setState({
               mouseIsOut: true
             });
