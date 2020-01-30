@@ -28,18 +28,18 @@ class DragonBallElement extends React.Component {
     let x = event.pageX;
     let y = event.pageY;
 
-    // console.log(
-    //   this._reactInternalFiber.child._debugOwner.memoizedProps.parentClass
-    // );
-    // let all of the target class know that something is being dragged
     this.props.updateGlobalState({
       elementBeingDragged: this.props.item
     });
 
+    let { measurements } = this.props;
+
     this.setState({
       elementBeingDragged: this.props.item,
       currentX: x,
-      currentY: y
+      currentY: y,
+      elementX: measurements.left,
+      elementY: measurements.top
     });
   }
 
@@ -53,7 +53,7 @@ class DragonBallElement extends React.Component {
       };
     } else {
       return {
-        // display: "none"
+        display: "none"
       };
     }
   }
@@ -91,18 +91,26 @@ class DragonBallElement extends React.Component {
 
       let x_difference = currentX - x;
       let y_difference = currentY - y;
-      console.log(y_difference);
-      if (Math.abs(x_difference) >= 50) {
+      let increment = 50;
+
+      let sign_of_y = -1 * Math.sign(y_difference);
+      let sign_of_x = -1 * Math.sign(x_difference);
+
+      if (Math.abs(x_difference) >= increment) {
+        let new_elementX = this.state.elementX + increment * sign_of_x;
+
         this.setState({
           currentX: x,
-          elementX: x - initalWidth / 2
+          elementX: new_elementX
         });
       }
 
-      if (Math.abs(y_difference) >= 50) {
+      if (Math.abs(y_difference) >= increment) {
+        let new_elementY = this.state.elementY + increment * sign_of_y;
+
         this.setState({
           currentY: y,
-          elementY: y - initalWidth / 2
+          elementY: new_elementY
         });
       }
     }
@@ -112,7 +120,6 @@ class DragonBallElement extends React.Component {
     // console.log(this.props.initialCoordinates);
     const style = {
       position: "fixed",
-      display: "block",
       backgroundColor: "#6967e6db",
       ...this.returnElementStyle()
     };

@@ -4,29 +4,36 @@ import DragonBallElement from "./DragonBallElement";
 class Ball extends React.Component {
   constructor(props) {
     super(props);
-    this.myRef = React.createRef();
 
+    this.refCallback = this.refCallback.bind(this);
     this.state = {
       initialX: null,
-      initialY: null
+      initialY: null,
+      measurements: null
     };
   }
 
-  componentDidMount() {
-    if (this.myRef.current) {
-      console.log(this.myRef.current.offsetWidth);
-    }
-  }
-
   refCallback = element => {
-    if (element) {
-      let measurements = element.getBoundingClientRect();
-      console.log(measurements.width);
+    if (element && this.state.measurements == null) {
+      let rect = element.getBoundingClientRect();
+      let measurements = {
+        width: rect.width,
+        top: rect.top,
+        left: rect.left
+      };
+      console.log(measurements);
+
+      this.setState({
+        measurements: measurements
+      });
+
       return measurements;
     }
 
     return null;
   };
+
+  getMeasurements() {}
 
   handleMouseDown(e) {
     let event = window.event;
@@ -53,7 +60,7 @@ class Ball extends React.Component {
               ref="draggonChild"
               parentClass="ball"
               item={this.props.item}
-              refCallback={this.refCallback}
+              measurements={this.state.measurements}
               ghostComponent={<Ball ghost={true} />}
               updateGlobalState={state => {
                 console.log("let everyone know this is being dragged");
