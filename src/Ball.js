@@ -55,6 +55,17 @@ class Ball extends React.Component {
             onMouseDown={e => {
               this.handleMouseDown(e);
             }}
+            onTouchStart={e => {
+              console.log("start touch");
+              this.handleMouseDown(e);
+            }}
+            onTouchMove={e => {
+              this.refs.draggonChild.updateMousePosition(e);
+            }}
+            onTouchEnd={() => {
+              console.log("touch end");
+              this.refs.draggonChild.mouseIsUp();
+            }}
           >
             <DragonBallElement
               ref="draggonChild"

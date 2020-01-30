@@ -25,9 +25,15 @@ class DragonBallElement extends React.Component {
 
   handleMouseDown(e) {
     let event = window.event;
+
+    if (e.touches) {
+      event = e.touches[0];
+      console.log(event);
+    }
+
     let x = event.pageX;
     let y = event.pageY;
-
+    console.log(x, y);
     this.props.updateGlobalState({
       elementBeingDragged: this.props.item
     });
@@ -73,14 +79,21 @@ class DragonBallElement extends React.Component {
     });
   }
 
-  updateMousePosition() {
+  updateMousePosition(e) {
+    e.preventDefault();
+
+    console.log("touch move");
     let event = window.event;
+
+    if (e.touches) {
+      event = e.touches[0];
+      console.log(event);
+    }
+
     let x = event.pageX;
     let y = event.pageY;
 
-    let initalWidth = this.refs.child.parentNode.clientWidth;
-    //  console.log(this.refs.child.parentNode.clientHeight);
-    let componentHeight = this.refs.child.parentNode.clientHeight;
+    console.log(x, y);
     if (this.state.elementBeingDragged) {
       let { currentX, currentY } = this.state;
 
