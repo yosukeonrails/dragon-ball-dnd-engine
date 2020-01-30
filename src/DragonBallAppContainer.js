@@ -1,7 +1,5 @@
 import React from "react";
-import DragonBallTarget from "./DragonBallTarget";
 import Box from "./Box";
-import DragonBallElement from "./DragonBallElement";
 import Ball from "./Ball";
 
 class DragonBallAppContainer extends React.Component {

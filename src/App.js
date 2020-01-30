@@ -1,7 +1,6 @@
 import React from "react";
 import DragonBallTarget from "./DragonBallTarget";
 import Box from "./Box";
-import DragonBallElement from "./DragonBallElement";
 import Ball from "./Ball";
 import "./App.css";
 
@@ -51,9 +50,12 @@ class App extends React.Component {
 
   renderBoxes() {
     return this.state.boxes.map((box, index) => {
+      let boxComponent = (
+        <Box item={box} globalState={this.state} id={box.id} />
+      );
       return (
         <div>
-          <Box item={box} globalState={this.state} id={box.id} />{" "}
+          <DragonBallTarget targetComponent={boxComponent} />
         </div>
       );
     });
@@ -78,7 +80,6 @@ class App extends React.Component {
   render() {
     return (
       <div
-        onMouseUp={() => {}}
         onMouseMove={() => {
           let event = window.event;
           let x = event.pageX;

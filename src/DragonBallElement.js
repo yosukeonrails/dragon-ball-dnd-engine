@@ -1,4 +1,5 @@
 import React from "react";
+import Ghost from "./Ghost";
 
 class DragonBallElement extends React.Component {
   constructor(props) {
@@ -9,15 +10,17 @@ class DragonBallElement extends React.Component {
       elementY: null,
       dragging: false,
       elementBeingDragged: false,
-      initialX: this.props.initialCoordinates.x,
-      initialY: this.props.initialCoordinates.y
+      mouseIsOut: false
     };
 
+    this.mouseIsUp = this.mouseIsUp.bind(this);
     this.updateMousePosition = this.updateMousePosition.bind(this);
+    this.ghostMouseOut = this.ghostMouseOut.bind(this);
   }
 
   componentWillMount() {
     window.addEventListener("mousemove", this.updateMousePosition);
+    window.addEventListener("mouseup", this.mouseIsUp);
   }
 
   handleMouseDown(e) {
@@ -34,7 +37,9 @@ class DragonBallElement extends React.Component {
     });
 
     this.setState({
-      elementBeingDragged: this.props.item
+      elementBeingDragged: this.props.item,
+      currentX: x,
+      currentY: y
     });
   }
 
@@ -48,9 +53,24 @@ class DragonBallElement extends React.Component {
       };
     } else {
       return {
-        display: "none"
+        // display: "none"
       };
     }
+  }
+
+  mouseIsUp() {
+    this.setState({
+      elementBeingDragged: null,
+      elementY: null,
+      elementX: null,
+      mouseIsOut: false
+    });
+  }
+
+  ghostMouseOut() {
+    this.setState({
+      mouseIsOut: true
+    });
   }
 
   updateMousePosition() {
@@ -59,30 +79,29 @@ class DragonBallElement extends React.Component {
     let y = event.pageY;
 
     let initalWidth = this.refs.child.parentNode.clientWidth;
-
-    // this.setState({
-    //   elementX: x - halfOfInitialWidth / 2,
-    //   elementY: y - halfOfInitialWidth / 2
-    // });
-
+    //  console.log(this.refs.child.parentNode.clientHeight);
+    let componentHeight = this.refs.child.parentNode.clientHeight;
     if (this.state.elementBeingDragged) {
-      let { initialX, initialY } = this.state;
+      let { currentX, currentY } = this.state;
 
-      let x_difference = initialX - x;
-      let y_difference = initialY - y;
+      if (!currentX || !currentY) {
+        console.log("no initials");
+        return;
+      }
 
-      if (Math.abs(x_difference) >= initalWidth) {
-        console.log("update x position");
+      let x_difference = currentX - x;
+      let y_difference = currentY - y;
+      console.log(y_difference);
+      if (Math.abs(x_difference) >= 50) {
         this.setState({
-          initialX: x,
+          currentX: x,
           elementX: x - initalWidth / 2
         });
       }
 
       if (Math.abs(y_difference) >= 50) {
-        console.log("update y position");
         this.setState({
-          initialY: y,
+          currentY: y,
           elementY: y - initalWidth / 2
         });
       }
@@ -92,20 +111,31 @@ class DragonBallElement extends React.Component {
   render() {
     // console.log(this.props.initialCoordinates);
     const style = {
+      position: "fixed",
+      display: "block",
       backgroundColor: "#6967e6db",
       ...this.returnElementStyle()
     };
 
     let ghost = () => {
-      return this.props.ghostComponent;
+      return (
+        <Ghost
+          ghostMouseOut={this.ghostMouseOut}
+          child={this.props.ghostComponent}
+        />
+      );
     };
 
     return (
       <div ref="child">
         <div
-          onMouseUp={() => {
+          onMouseLeave={() => {
+            // let event = window.event;
+            // let x = event.pageX;
+            // let y = event.pageY;
+
             this.setState({
-              elementBeingDragged: null
+              mouseIsOut: true
             });
           }}
           style={style}

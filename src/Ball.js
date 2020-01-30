@@ -5,6 +5,7 @@ class Ball extends React.Component {
   constructor(props) {
     super(props);
     this.myRef = React.createRef();
+
     this.state = {
       initialX: null,
       initialY: null
@@ -31,18 +32,13 @@ class Ball extends React.Component {
     let event = window.event;
     let x = event.pageX;
     let y = event.pageY;
-    console.log("Initial state");
-    console.log(x, y);
-    this.setState({
-      initialX: x,
-      initialY: y
-    });
+
     this.refs.draggonChild.handleMouseDown(e);
   }
 
   render() {
     return (
-      <div>
+      <div className="ball-wrapper">
         {this.props.ghost ? (
           <div className="ball"></div>
         ) : (
@@ -56,10 +52,6 @@ class Ball extends React.Component {
             <DragonBallElement
               ref="draggonChild"
               parentClass="ball"
-              initialCoordinates={{
-                x: this.state.initialX,
-                y: this.state.initialY
-              }}
               item={this.props.item}
               refCallback={this.refCallback}
               ghostComponent={<Ball ghost={true} />}

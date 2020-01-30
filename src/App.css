@@ -34,10 +34,11 @@
 .ball {
   position: relative;
   background-color: orange;
-  width: 5em;
-  height: 5em;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  float: left;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ball-container {
@@ -46,4 +47,10 @@
   height: 10em;
   border: 1px solid black;
   bottom: 0;
+  margin-top: 100px;
+}
+
+.ball-wrapper {
+  width: 13%;
+  float: left;
 }
