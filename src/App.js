@@ -3,6 +3,7 @@ import DragonBallTarget from "./DragonBallTarget";
 import Box from "./Box";
 import Ball from "./Ball";
 import "./App.css";
+import DragonElement from "./DragonElement";
 
 class App extends React.Component {
   constructor(props) {
@@ -63,16 +64,22 @@ class App extends React.Component {
 
   renderBalls() {
     return this.state.balls.map((ball, index) => {
+      let ballComponent = <div className="ball"></div>;
       return (
-        <Ball
-          globalX={this.state.globalX}
-          globalY={this.state.globalY}
-          id={ball.id}
-          updateGlobalState={state => {
-            this.updateGlobalState(state);
-          }}
-          item={ball}
-        />
+        <div className="ball-wrapper">
+          <DragonElement
+            // globalX={this.state.globalX}
+            // globalY={this.state.globalY}
+            id={ball.id}
+            itemData={ball}
+            child={ballComponent}
+            ref="draggonChild"
+            parentClass="ball"
+            getMeasurements={this.getMeasurements}
+            measurements={this.state.measurements}
+            ghostComponent={ballComponent}
+          />
+        </div>
       );
     });
   }
