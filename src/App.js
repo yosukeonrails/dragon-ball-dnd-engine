@@ -49,6 +49,11 @@ class App extends React.Component {
     });
   }
 
+  onDragonDrop(data) {
+    console.log("Ball dropped!");
+    console.log(data);
+  }
+
   renderBoxes() {
     return this.state.boxes.map((box, index) => {
       let boxComponent = (
@@ -68,11 +73,10 @@ class App extends React.Component {
       return (
         <div className="ball-wrapper">
           <DragonElement
-            // globalX={this.state.globalX}
-            // globalY={this.state.globalY}
             id={ball.id}
             itemData={ball}
             child={ballComponent}
+            onDragonDrop={this.onDragonDrop}
             ref="draggonChild"
             parentClass="ball"
             getMeasurements={this.getMeasurements}

@@ -38,13 +38,18 @@ class DragonElement extends React.Component {
     // });
 
     let measurements = this.getMeasurements();
-    console.log(measurements);
+
+    console.log("INITIAL");
+    console.log(measurements.left, measurements.top);
+
     this.setState({
       elementBeingDragged: this.props.itemData,
       currentX: x,
       currentY: y,
       elementX: measurements.left,
-      elementY: measurements.top
+      elementY: measurements.top,
+      initialLeft: measurements.left,
+      initialTop: measurements.top
     });
   }
 
@@ -82,12 +87,39 @@ class DragonElement extends React.Component {
   }
 
   mouseIsUp() {
-    this.setState({
-      elementBeingDragged: null,
-      elementY: null,
-      elementX: null,
-      mouseIsOut: false
-    });
+    let { itemData, parentClass, id } = this.props;
+    let {
+      elementX,
+      elementY,
+      elementBeingDragged,
+      pageX,
+      pageY,
+      initialTop,
+      initialLeft
+    } = this.state;
+
+    let data = {
+      itemData,
+      parentClass,
+      id,
+      left_position_of_ghost: elementX,
+      top_position_of_ghost: elementY,
+      elementBeingDragged,
+      x_coordinate_of_mouse: pageX,
+      y_coordinate_of_mouse: pageY,
+      initial_top_position: initialTop,
+      initial_left_position: initialLeft
+    };
+
+    if (this.state.elementBeingDragged) {
+      this.props.onDragonDrop(data);
+      this.setState({
+        elementBeingDragged: null,
+        elementY: null,
+        elementX: null,
+        mouseIsOut: false
+      });
+    }
   }
 
   ghostMouseOut() {
@@ -109,7 +141,6 @@ class DragonElement extends React.Component {
     let y = event.pageY;
 
     if (this.state.elementBeingDragged) {
-      console.log(x, y);
       let { currentX, currentY } = this.state;
 
       if (!currentX || !currentY) {
@@ -142,6 +173,11 @@ class DragonElement extends React.Component {
         });
       }
     }
+
+    this.setState({
+      pageX: x,
+      pageY: y
+    });
   }
 
   render() {
