@@ -208,6 +208,7 @@ class DragonElement extends React.Component {
           }}
           onTouchStart={e => {
             this.handleMouseDown(e);
+            this.props.onDragonStartDrag();
           }}
           onTouchMove={e => {
             this.updateMousePosition(e);

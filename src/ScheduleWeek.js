@@ -48,7 +48,7 @@ class ScheduleWeek extends React.Component {
       );
 
       // let slotWidth = 0 || this.state.eventWidth;
-
+      console.log(this.state.eventWeekSlotWidth);
       return (
         <DragonElement
           id={event.id}

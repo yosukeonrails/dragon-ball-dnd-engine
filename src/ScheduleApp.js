@@ -162,7 +162,8 @@ class ScheduleApp extends React.Component {
   dispatchOnElementDropped(item) {}
 
   updateEventById(updateEvent) {
-    console.log(updateEvent.id);
+    console.log(updateEvent);
+    console.log(this.state.minuteHeight);
     let index = null;
     for (let i = 0; i < this.state.events.length; i++) {
       let event = this.state.events[i];
@@ -177,7 +178,7 @@ class ScheduleApp extends React.Component {
       (-1 *
         (updateEvent.initial_left_position -
           updateEvent.left_position_of_ghost)) /
-      90;
+      updateEvent.increment.x;
 
     let originalTotalMinutes =
       updateEvent.elementBeingDragged.dateTime.time.h * 60 +
