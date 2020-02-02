@@ -176,6 +176,7 @@ class DragonElement extends React.Component {
     const style = {
       position: "fixed",
       touchAction: "none",
+      transition: ".05s",
       ...this.returnElementStyle()
     };
 
