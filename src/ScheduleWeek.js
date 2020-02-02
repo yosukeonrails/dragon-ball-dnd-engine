@@ -4,14 +4,30 @@ import DragonElement from "./DragonElement";
 class ScheduleWeek extends React.Component {
   constructor(props) {
     super(props);
+    this.myRef = React.createRef();
+    this.state = {
+      eventWeekSlotWidth: 0
+    };
+
+    this.renderEvents = this.renderEvents.bind(this);
+  }
+
+  componentWillMount() {
+    window.addEventListener(
+      "resize",
+      () => {
+        this.setState({
+          eventWeekSlotWidth: this.myRef.current.clientWidth
+        });
+      },
+      true
+    );
   }
 
   onDrop(data) {
     console.log(data);
   }
   renderEvents() {
-    console.log(this.props.events);
-
     let events = this.props.events.map(event => {
       let { minuteHeight } = this.props;
       let height =
@@ -22,9 +38,6 @@ class ScheduleWeek extends React.Component {
         minuteHeight * event.dateTime.time.h * 4 +
         minuteHeight * (event.dateTime.time.m / 15);
 
-      console.log(event.description);
-      console.log(event.dateTime.time.m / 15);
-
       let eventComponent = (
         <div className="event" style={{ height: height, top: topPosition }}>
           <p>{event.description}</p>
@@ -32,15 +45,21 @@ class ScheduleWeek extends React.Component {
         </div>
       );
 
+      // let slotWidth = 0 || this.state.eventWidth;
+
       return (
         <DragonElement
           id={event.id}
           itemData={event}
           child={eventComponent}
           onDragonDrop={this.onDrop}
-          ref="draggonChild"
+          onDragonStartDrag={() => {
+            this.setState({
+              eventWeekSlotWidth: this.myRef.current.clientWidth
+            });
+          }}
           parentClass="ball"
-          increment={{ y: minuteHeight, x: 25 }}
+          increment={{ y: minuteHeight, x: this.state.eventWeekSlotWidth }}
           ghostComponent={eventComponent}
         />
       );
@@ -52,7 +71,11 @@ class ScheduleWeek extends React.Component {
   render() {
     let height = this.props.minuteHeight * 4 * 25;
     return (
-      <div className="week-container" style={{ height, touchAction: "none" }}>
+      <div
+        className="week-container"
+        ref={this.myRef}
+        style={{ height, touchAction: "none" }}
+      >
         {this.renderEvents()}
       </div>
     );

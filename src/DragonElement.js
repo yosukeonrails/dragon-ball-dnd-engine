@@ -200,6 +200,7 @@ class DragonElement extends React.Component {
           ref="myReactRef"
           onMouseDown={e => {
             this.handleMouseDown(e);
+            this.props.onDragonStartDrag();
           }}
           onTouchStart={e => {
             this.handleMouseDown(e);

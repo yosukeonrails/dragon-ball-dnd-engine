@@ -5,6 +5,7 @@ import ScheduleWeek from "./ScheduleWeek";
 class ScheduleApp extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       events: [
         {
