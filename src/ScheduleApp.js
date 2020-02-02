@@ -155,15 +155,12 @@ class ScheduleApp extends React.Component {
       ],
       minuteHeight: 24
     };
-    this.renderEventContainer = this.renderEventContainer.bind(this);
+
     this.onDragonDrop = this.onDragonDrop.bind(this);
+    this.makeCursorDisappear = this.makeCursorDisappear.bind(this);
   }
 
-  dispatchOnElementDropped(item) {}
-
-  updateEventById(updateEvent) {
-    console.log(updateEvent);
-    console.log(this.state.minuteHeight);
+  onDragonDrop(updateEvent, newData) {
     let index = null;
     for (let i = 0; i < this.state.events.length; i++) {
       let event = this.state.events[i];
@@ -174,54 +171,19 @@ class ScheduleApp extends React.Component {
         break;
       }
     }
-    let weekMovement =
-      (-1 *
-        (updateEvent.initial_left_position -
-          updateEvent.left_position_of_ghost)) /
-      updateEvent.increment.x;
 
-    let originalTotalMinutes =
-      updateEvent.elementBeingDragged.dateTime.time.h * 60 +
-      updateEvent.elementBeingDragged.dateTime.time.m;
-
-    let difference =
-      (updateEvent.top_position_of_ghost - updateEvent.initial_top_position) /
-      this.state.minuteHeight;
-
-    let totalMinutes = originalTotalMinutes + difference * 15;
-
-    let hourObject = this.convertMinutesToHourObject(totalMinutes);
-    console.log(hourObject);
     let newEvents = [...this.state.events];
 
-    newEvents[index].dateTime.time.h = hourObject.h;
-    newEvents[index].dateTime.time.m = hourObject.m;
-    newEvents[index].weekIndex = newEvents[index].weekIndex + weekMovement;
-
-    console.log(newEvents[index]);
+    newEvents[index].dateTime.time.h = newData.hourObject.h;
+    newEvents[index].dateTime.time.m = newData.hourObject.m;
+    newEvents[index].weekIndex =
+      newEvents[index].weekIndex + newData.weekMovement;
 
     this.setState({
-      events: newEvents
+      events: newEvents,
+      noCursor: false
     });
   }
-
-  convertMinutesToHourObject = m => {
-    let h = 0;
-
-    while (m >= 60) {
-      m = m - 60;
-      h = h + 1;
-    }
-
-    return { h: h, m: m };
-  };
-
-  onDragonDrop(data) {
-    console.log(data);
-    this.updateEventById(data);
-  }
-
-  renderBalls() {}
 
   renderWeekBackground() {
     let week = [];
@@ -257,6 +219,7 @@ class ScheduleApp extends React.Component {
             events={filteredEvents}
             onDragonDrop={this.onDragonDrop}
             minuteHeight={this.state.minuteHeight}
+            makeCursorDisappear={this.makeCursorDisappear}
           />
           {hours}
         </div>
@@ -266,31 +229,16 @@ class ScheduleApp extends React.Component {
     return week;
   }
 
-  renderEventContainer() {
-    let week = [];
-
-    for (let i = 0; i < 7; i++) {
-      let filteredEvents = this.state.events.filter(event => {
-        return event.weekIndex === i;
-      });
-
-      console.log(filteredEvents);
-
-      week.push(
-        <ScheduleWeek
-          onDragonDrop={this.props.onDrop}
-          events={filteredEvents}
-          minuteHeight={this.state.minuteHeight}
-        />
-      );
-    }
-
-    return week;
+  makeCursorDisappear(noCursor) {
+    // this.setState({
+    //   noCursor: noCursor
+    // });
   }
 
   render() {
+    let makeCursorDisappear = this.state.noCursor ? { cursor: "none" } : null;
     return (
-      <div>
+      <div style={makeCursorDisappear}>
         <div className="schedule-app-container">
           <div className="schedule-background">
             {this.renderWeekBackground()}

@@ -83,33 +83,8 @@ class DragonElement extends React.Component {
     window.removeEventListener("mousemove", this.updateMousePosition);
     window.removeEventListener("mouseup", this.mouseIsUp);
 
-    let { itemData, parentClass, id, increment } = this.props;
-    let {
-      elementX,
-      elementY,
-      elementBeingDragged,
-      pageX,
-      pageY,
-      initialTop,
-      initialLeft
-    } = this.state;
-
-    let data = {
-      itemData,
-      parentClass,
-      id,
-      increment,
-      left_position_of_ghost: elementX,
-      top_position_of_ghost: elementY,
-      elementBeingDragged,
-      x_coordinate_of_mouse: pageX,
-      y_coordinate_of_mouse: pageY,
-      initial_top_position: initialTop,
-      initial_left_position: initialLeft
-    };
-
     if (this.state.elementBeingDragged) {
-      this.props.onDragonDrop(data);
+      this.props.onDragonDrop(this.state.data);
       this.setState({
         elementBeingDragged: null,
         elementY: null,
@@ -151,7 +126,7 @@ class DragonElement extends React.Component {
       let sign_of_y = -1 * Math.sign(y_difference);
       let sign_of_x = -1 * Math.sign(x_difference);
 
-      if (Math.abs(x_difference) >= increment.x) {
+      if (Math.abs(x_difference) >= increment.sensitivityX) {
         let new_elementX = this.state.elementX + increment.x * sign_of_x;
 
         this.setState({
@@ -160,7 +135,7 @@ class DragonElement extends React.Component {
         });
       }
 
-      if (Math.abs(y_difference) >= increment.y) {
+      if (Math.abs(y_difference) >= increment.sensitivityY) {
         let new_elementY = this.state.elementY + increment.y * sign_of_y;
 
         this.setState({
@@ -170,10 +145,38 @@ class DragonElement extends React.Component {
       }
     }
 
+    let { itemData, parentClass, id, increment } = this.props;
+    let {
+      elementX,
+      elementY,
+      elementBeingDragged,
+      pageX,
+      pageY,
+      initialTop,
+      initialLeft
+    } = this.state;
+
+    let data = {
+      itemData,
+      parentClass,
+      id,
+      increment,
+      left_position_of_ghost: elementX,
+      top_position_of_ghost: elementY,
+      elementBeingDragged,
+      x_coordinate_of_mouse: pageX,
+      y_coordinate_of_mouse: pageY,
+      initial_top_position: initialTop,
+      initial_left_position: initialLeft
+    };
+
     this.setState({
       pageX: x,
-      pageY: y
+      pageY: y,
+      data
     });
+
+    this.props.onDragon(data);
   }
 
   render() {
