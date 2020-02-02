@@ -10,6 +10,7 @@ class ScheduleWeek extends React.Component {
     };
 
     this.renderEvents = this.renderEvents.bind(this);
+    this.onDragonDrop = this.onDragonDrop.bind(this);
   }
 
   componentWillMount() {
@@ -24,9 +25,10 @@ class ScheduleWeek extends React.Component {
     );
   }
 
-  onDrop(data) {
-    console.log(data);
+  onDragonDrop(data) {
+    this.props.onDragonDrop(data);
   }
+
   renderEvents() {
     let events = this.props.events.map(event => {
       let { minuteHeight } = this.props;
@@ -52,7 +54,7 @@ class ScheduleWeek extends React.Component {
           id={event.id}
           itemData={event}
           child={eventComponent}
-          onDragonDrop={this.onDrop}
+          onDragonDrop={this.onDragonDrop}
           onDragonStartDrag={() => {
             this.setState({
               eventWeekSlotWidth: this.myRef.current.clientWidth

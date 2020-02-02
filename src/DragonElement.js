@@ -18,7 +18,7 @@ class DragonElement extends React.Component {
     this.ghostMouseOut = this.ghostMouseOut.bind(this);
   }
 
-  componentWillMount() {
+  componentDidUpdate() {
     window.addEventListener("mousemove", this.updateMousePosition);
     window.addEventListener("mouseup", this.mouseIsUp);
   }
@@ -80,7 +80,10 @@ class DragonElement extends React.Component {
   }
 
   mouseIsUp() {
-    let { itemData, parentClass, id } = this.props;
+    window.removeEventListener("mousemove", this.updateMousePosition);
+    window.removeEventListener("mouseup", this.mouseIsUp);
+
+    let { itemData, parentClass, id, increment } = this.props;
     let {
       elementX,
       elementY,
@@ -95,6 +98,7 @@ class DragonElement extends React.Component {
       itemData,
       parentClass,
       id,
+      increment,
       left_position_of_ghost: elementX,
       top_position_of_ghost: elementY,
       elementBeingDragged,
