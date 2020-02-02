@@ -33,14 +33,7 @@ class DragonElement extends React.Component {
     let x = event.pageX;
     let y = event.pageY;
 
-    // this.props.updateGlobalState({
-    //   elementBeingDragged: this.props.item
-    // });
-
     let measurements = this.getMeasurements();
-
-    console.log("INITIAL");
-    console.log(measurements.left, measurements.top);
 
     this.setState({
       elementBeingDragged: this.props.itemData,
@@ -58,13 +51,13 @@ class DragonElement extends React.Component {
     if (ref) {
       if (ref) {
         let rect = ref.getBoundingClientRect();
-        console.log(rect);
+
         let measurements = {
           width: rect.width,
           top: rect.top,
           left: rect.left
         };
-        console.log(measurements);
+
         return measurements;
       }
     }
@@ -144,13 +137,12 @@ class DragonElement extends React.Component {
       let { currentX, currentY } = this.state;
 
       if (!currentX || !currentY) {
-        console.log("no initials");
         return;
       }
 
       let x_difference = currentX - x;
       let y_difference = currentY - y;
-      let increment = 50;
+      let increment = this.props.increment;
 
       let sign_of_y = -1 * Math.sign(y_difference);
       let sign_of_x = -1 * Math.sign(x_difference);
@@ -181,10 +173,9 @@ class DragonElement extends React.Component {
   }
 
   render() {
-    // console.log(this.props.initialCoordinates);
     const style = {
       position: "fixed",
-      backgroundColor: "#6967e6db",
+      touchAction: "none",
       ...this.returnElementStyle()
     };
 
@@ -210,14 +201,12 @@ class DragonElement extends React.Component {
             this.handleMouseDown(e);
           }}
           onTouchStart={e => {
-            console.log("start touch");
             this.handleMouseDown(e);
           }}
           onTouchMove={e => {
             this.updateMousePosition(e);
           }}
           onTouchEnd={() => {
-            console.log("touch end");
             this.mouseIsUp();
           }}
         >

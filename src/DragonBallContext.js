@@ -1,8 +1,10 @@
 import React from "react";
+import DragonBallTarget from "./DragonBallTarget";
 import Box from "./Box";
-import Ball from "./Ball";
+import "./App.css";
+import DragonElement from "./DragonElement";
 
-class DragonBallAppContainer extends React.Component {
+class DragonBallContext extends React.Component {
   constructor(props) {
     super(props);
 
@@ -39,28 +41,65 @@ class DragonBallAppContainer extends React.Component {
   }
 
   updateGlobalState(state) {
+    console.log("updating global state");
     this.setState({
       ...this.state,
       ...state
     });
   }
 
+  onDragonDrop(data) {
+    console.log("Ball dropped!");
+    console.log(data);
+  }
+
   renderBoxes() {
     return this.state.boxes.map((box, index) => {
-      return <Box item={box} id={box.id} />;
+      let boxComponent = (
+        <Box item={box} globalState={this.state} id={box.id} />
+      );
+      return (
+        <div>
+          <DragonBallTarget targetComponent={boxComponent} />
+        </div>
+      );
     });
   }
 
   renderBalls() {
     return this.state.balls.map((ball, index) => {
-      return <Ball id={ball.id} item={ball} />;
+      let ballComponent = <div className="ball"></div>;
+      return (
+        <div className="ball-wrapper">
+          <DragonElement
+            id={ball.id}
+            itemData={ball}
+            child={ballComponent}
+            onDragonDrop={this.onDragonDrop}
+            ref="draggonChild"
+            parentClass="ball"
+            getMeasurements={this.getMeasurements}
+            measurements={this.state.measurements}
+            ghostComponent={ballComponent}
+          />
+        </div>
+      );
     });
   }
 
   render() {
-    console.log(this.state);
     return (
-      <div>
+      <div
+        onMouseMove={() => {
+          let event = window.event;
+          let x = event.pageX;
+          let y = event.pageY;
+          this.setState({
+            globalX: x,
+            globalY: y
+          });
+        }}
+      >
         <div className="ball-container">{this.renderBalls()}</div>
         <div className="box-container">{this.renderBoxes()}</div>
       </div>
@@ -68,4 +107,4 @@ class DragonBallAppContainer extends React.Component {
   }
 }
 
-export default DragonBallAppContainer;
+export default DragonBallContext;

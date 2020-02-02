@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  box-sizing: border-box;
 }
 
 .App-logo {
@@ -56,4 +57,72 @@
 
 .ball-wrapper {
   float: left;
+}
+.background-15-minute {
+  height: 24px;
+  box-sizing: border-box;
+  border: 1px solid #dadada;
+}
+.schedule-background {
+  width: 80%;
+  margin-left: auto;
+  position: absolute;
+  margin-top: 2em;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+}
+
+.background-week {
+  width: 14.28%;
+  box-sizing: border-box;
+  background-color: #f6f9ff;
+  float: left;
+}
+.background-hour {
+  box-sizing: border-box;
+  /* border-bottom: 1px solid #6a6eff; */
+}
+
+.schedule-container {
+  position: absolute;
+  margin-top: 2em;
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.schedule-app-container {
+  width: 80%;
+  margin-left: auto;
+  margin-top: 2em;
+  margin-right: auto;
+  background-color: #4a4a4a;
+  display: flex;
+  justify-content: center;
+}
+
+.week-container {
+  background-color: #ffffff52;
+  width: 14.28%;
+  position: absolute;
+  box-sizing: border-box;
+}
+.event {
+  border-radius: 0.3em;
+  font-size: 0.8em;
+  color: white;
+  border: 1px solid #ffffff;
+  background-color: #1739ffc2;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 5px;
+  width: 70px;
+  position: absolute;
+}
+.event p {
+  margin: 0;
 }
