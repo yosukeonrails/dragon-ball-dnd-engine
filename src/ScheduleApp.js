@@ -183,7 +183,7 @@ class ScheduleApp extends React.Component {
               style={{
                 height: this.state.minuteHeight,
                 borderBottom: "1px solid " + color,
-                borderRight: "1px solid #dadada"
+                borderRight: "1px solid rgb(146, 146, 146)"
               }}
             ></div>
           );

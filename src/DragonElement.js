@@ -147,8 +147,8 @@ class DragonElement extends React.Component {
       let sign_of_y = -1 * Math.sign(y_difference);
       let sign_of_x = -1 * Math.sign(x_difference);
 
-      if (Math.abs(x_difference) >= increment) {
-        let new_elementX = this.state.elementX + increment * sign_of_x;
+      if (Math.abs(x_difference) >= increment.x) {
+        let new_elementX = this.state.elementX + increment.x * sign_of_x;
 
         this.setState({
           currentX: x,
@@ -156,8 +156,8 @@ class DragonElement extends React.Component {
         });
       }
 
-      if (Math.abs(y_difference) >= increment) {
-        let new_elementY = this.state.elementY + increment * sign_of_y;
+      if (Math.abs(y_difference) >= increment.y) {
+        let new_elementY = this.state.elementY + increment.y * sign_of_y;
 
         this.setState({
           currentY: y,

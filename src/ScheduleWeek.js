@@ -40,7 +40,7 @@ class ScheduleWeek extends React.Component {
           onDragonDrop={this.onDrop}
           ref="draggonChild"
           parentClass="ball"
-          increment={minuteHeight}
+          increment={{ y: minuteHeight, x: 25 }}
           ghostComponent={eventComponent}
         />
       );
