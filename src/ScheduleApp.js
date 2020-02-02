@@ -175,10 +175,16 @@ class ScheduleApp extends React.Component {
       for (let i = 0; i < 24; i++) {
         let quarter_hour = [];
         for (let i = 0; i < 4; i++) {
+          let color = i === 3 ? "rgb(75, 102, 254)" : "#dadada";
+
           quarter_hour.push(
             <div
               className="background-15-minute"
-              style={{ height: this.state.minuteHeight }}
+              style={{
+                height: this.state.minuteHeight,
+                borderBottom: "1px solid " + color,
+                borderRight: "1px solid #dadada"
+              }}
             ></div>
           );
         }

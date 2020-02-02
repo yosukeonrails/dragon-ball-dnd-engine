@@ -61,7 +61,8 @@
 .background-15-minute {
   height: 24px;
   box-sizing: border-box;
-  border: 1px solid #dadada;
+  border-top: 1px solid #dadada;
+  border-right: 1px solid #dadada;
 }
 .schedule-background {
   width: 80%;
