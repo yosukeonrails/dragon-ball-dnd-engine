@@ -136,7 +136,23 @@ class DragonElement extends React.Component {
       }
 
       if (Math.abs(y_difference) >= increment.sensitivityY) {
-        let new_elementY = this.state.elementY + increment.y * sign_of_y;
+        let multiplier = y_difference / increment.sensitivityY;
+        let additionalIncrement = 0;
+
+        if (Math.abs(multiplier) > 2) {
+          let result =
+            Math.sign(multiplier) > 0
+              ? Math.floor(multiplier)
+              : Math.ceil(multiplier);
+
+          additionalIncrement = increment.y * result;
+          console.log(currentY);
+          console.log("JUMPED TO");
+          console.log(y);
+        }
+
+        let new_elementY =
+          this.state.elementY + (increment.y + additionalIncrement) * sign_of_y;
 
         this.setState({
           currentY: y,
@@ -183,7 +199,7 @@ class DragonElement extends React.Component {
     const style = {
       position: "fixed",
       touchAction: "none",
-      transition: ".05s",
+      // transition: ".05s",
       ...this.returnElementStyle()
     };
 
