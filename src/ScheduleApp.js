@@ -160,12 +160,44 @@ class ScheduleApp extends React.Component {
     this.makeCursorDisappear = this.makeCursorDisappear.bind(this);
   }
 
-  onDragonDrop(updateEvent, newData) {
+  convertMinutesToHourObject = m => {
+    let h = 0;
+
+    while (m >= 60) {
+      m = m - 60;
+      h = h + 1;
+    }
+
+    return { h: h, m: m };
+  };
+
+  getHourDataByData(data) {
+    // let weekMovement =
+    //   (-1 *
+    //     (updateEvent.initial_left_position -
+    //       updateEvent.left_position_of_ghost)) /
+    //   updateEvent.increment.x;
+
+    let originalTotalMinutes =
+      data.elementBeingDragged.dateTime.time.h * 60 +
+      data.elementBeingDragged.dateTime.time.m;
+    console.log(originalTotalMinutes);
+
+    // let difference =
+    //   (updateEvent.top_position_of_ghost - updateEvent.initial_top_position) /
+    //   this.props.minuteHeight;
+
+    let totalMinutes = originalTotalMinutes + data.y_movement * 15;
+
+    return this.convertMinutesToHourObject(totalMinutes);
+  }
+
+  onDragonDrop(data) {
     let index = null;
     for (let i = 0; i < this.state.events.length; i++) {
       let event = this.state.events[i];
 
-      if (event.id === updateEvent.id) {
+      if (event.id === data.id) {
         console.log(event.id);
         index = i;
         break;
@@ -173,15 +205,15 @@ class ScheduleApp extends React.Component {
     }
 
     let newEvents = [...this.state.events];
+    console.log(newEvents);
+    let hourObject = this.getHourDataByData(data);
 
-    newEvents[index].dateTime.time.h = newData.hourObject.h;
-    newEvents[index].dateTime.time.m = newData.hourObject.m;
-    newEvents[index].weekIndex =
-      newEvents[index].weekIndex + newData.weekMovement;
+    newEvents[index].dateTime.time.h = hourObject.h;
+    newEvents[index].dateTime.time.m = hourObject.m;
+    newEvents[index].weekIndex = newEvents[index].weekIndex + data.x_movement;
 
     this.setState({
-      events: newEvents,
-      noCursor: false
+      events: newEvents
     });
   }
 
@@ -230,9 +262,9 @@ class ScheduleApp extends React.Component {
   }
 
   makeCursorDisappear(noCursor) {
-    // this.setState({
-    //   noCursor: noCursor
-    // });
+    this.setState({
+      noCursor: noCursor
+    });
   }
 
   render() {

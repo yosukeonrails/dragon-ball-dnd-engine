@@ -19,27 +19,27 @@ class DragonElement extends React.Component {
     this.moveMouse = this.moveMouse.bind(this);
   }
 
-  // componentDidUpdate() {
-  //   window.addEventListener("mousemove", this.updateMousePosition);
-  //   window.addEventListener("mouseup", this.mouseIsUp);
-  // }
-  componentDidMount() {
+  componentDidUpdate() {
     window.addEventListener("mousemove", this.moveMouse);
-    //window.addEventListener("mouseup", this.mouseIsUp);
-    window.addEventListener("mousedown", e => {
-      console.log(window.scrollY);
-      let event = window.event;
-
-      let x = event.pageX;
-      let y = event.pageY;
-      console.log(x, y);
-    });
+    window.addEventListener("mouseup", this.mouseIsUp);
   }
+  // componentDidMount() {
+  //   window.addEventListener("mousemove", this.moveMouse);
+  //   //window.addEventListener("mouseup", this.mouseIsUp);
+  //   window.addEventListener("mousedown", e => {
+  //     console.log(window.scrollY);
+  //     let event = window.event;
+
+  //     let x = event.pageX;
+  //     let y = event.pageY;
+  //     console.log(x, y);
+  //   });
+  // }
 
   moveMouse(e) {
     let { elementBeingDragged } = this.state;
-
-    if (elementBeingDragged) {
+    let measurements = this.getMeasurements();
+    if (elementBeingDragged && measurements) {
       if (elementBeingDragged.id === this.props.id) {
         console.log(this.props.id);
       }
@@ -56,22 +56,22 @@ class DragonElement extends React.Component {
       let differenceY = y - this.props.styleData.top - window.scrollY;
       let differenceX = x - this.state.initialLeft - window.scrollX;
 
-      let measurements = this.getMeasurements();
-
-      let howManyY = Math.floor(
+      let y_movement = Math.floor(
         (differenceY - this.state.initialTop) / this.props.increment.y
       );
 
-      let howManyX = Math.floor(differenceX / measurements.width);
+      let x_movement = Math.floor(differenceX / measurements.width);
 
       let realPositionOfY =
-        this.state.initialTop + howManyY * this.props.increment.y;
+        this.state.initialTop + y_movement * this.props.increment.y;
       let realPositionOfX =
-        this.state.initialLeft + howManyX * measurements.width;
+        this.state.initialLeft + x_movement * measurements.width;
 
       this.setState({
         elementX: realPositionOfX,
-        elementY: realPositionOfY
+        elementY: realPositionOfY,
+        x_movement,
+        y_movement
       });
     }
   }
@@ -136,8 +136,37 @@ class DragonElement extends React.Component {
     window.removeEventListener("mousemove", this.updateMousePosition);
     window.removeEventListener("mouseup", this.mouseIsUp);
 
+    let { itemData, parentClass, id, increment } = this.props;
+    let {
+      elementX,
+      elementY,
+      elementBeingDragged,
+      pageX,
+      pageY,
+      initialTop,
+      initialLeft,
+      x_movement,
+      y_movement
+    } = this.state;
+
+    let data = {
+      itemData,
+      parentClass,
+      id,
+      increment,
+      x_movement,
+      y_movement,
+      left_position_of_ghost: elementX,
+      top_position_of_ghost: elementY,
+      elementBeingDragged,
+      x_coordinate_of_mouse: pageX,
+      y_coordinate_of_mouse: pageY,
+      initial_top_position: initialTop,
+      initial_left_position: initialLeft
+    };
+
     if (this.state.elementBeingDragged) {
-      this.props.onDragonDrop(this.state.data);
+      this.props.onDragonDrop(data);
       this.setState({
         elementBeingDragged: null,
         elementY: null,
@@ -214,38 +243,7 @@ class DragonElement extends React.Component {
       }
     }
 
-    let { itemData, parentClass, id, increment } = this.props;
-    let {
-      elementX,
-      elementY,
-      elementBeingDragged,
-      pageX,
-      pageY,
-      initialTop,
-      initialLeft
-    } = this.state;
-
-    let data = {
-      itemData,
-      parentClass,
-      id,
-      increment,
-      left_position_of_ghost: elementX,
-      top_position_of_ghost: elementY,
-      elementBeingDragged,
-      x_coordinate_of_mouse: pageX,
-      y_coordinate_of_mouse: pageY,
-      initial_top_position: initialTop,
-      initial_left_position: initialLeft
-    };
-
-    this.setState({
-      pageX: x,
-      pageY: y,
-      data
-    });
-
-    this.props.onDragon(data);
+    // this.props.onDragon(data);
   }
 
   render() {
@@ -284,11 +282,10 @@ class DragonElement extends React.Component {
             this.props.onDragonStartDrag();
           }}
           onTouchMove={e => {
-            //  this.updateMousePosition(e);
             this.moveMouse(e);
           }}
           onTouchEnd={() => {
-            //this.mouseIsUp();
+            this.mouseIsUp();
           }}
         >
           {this.props.child}

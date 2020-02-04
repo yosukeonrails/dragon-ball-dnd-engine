@@ -11,7 +11,6 @@ class ScheduleWeek extends React.Component {
 
     this.renderEvents = this.renderEvents.bind(this);
     this.onDragonDrop = this.onDragonDrop.bind(this);
-    this.onDragon = this.onDragon.bind(this);
   }
 
   componentWillMount() {
@@ -26,55 +25,8 @@ class ScheduleWeek extends React.Component {
     );
   }
 
-  convertMinutesToHourObject = m => {
-    let h = 0;
-
-    while (m >= 60) {
-      m = m - 60;
-      h = h + 1;
-    }
-
-    return { h: h, m: m };
-  };
-
-  getHourDataByData(updateEvent) {
-    let weekMovement =
-      (-1 *
-        (updateEvent.initial_left_position -
-          updateEvent.left_position_of_ghost)) /
-      updateEvent.increment.x;
-
-    let originalTotalMinutes =
-      updateEvent.elementBeingDragged.dateTime.time.h * 60 +
-      updateEvent.elementBeingDragged.dateTime.time.m;
-
-    let difference =
-      (updateEvent.top_position_of_ghost - updateEvent.initial_top_position) /
-      this.props.minuteHeight;
-
-    let totalMinutes = originalTotalMinutes + difference * 15;
-
-    let hourObject = this.convertMinutesToHourObject(totalMinutes);
-
-    return {
-      hourObject,
-      weekMovement
-    };
-  }
-
-  onDragon(data) {
-    if (!data.elementBeingDragged) {
-      return;
-    }
-
-    this.props.makeCursorDisappear(true);
-
-    this.setState({
-      newData: this.getHourDataByData(data)
-    });
-  }
   onDragonDrop(data) {
-    this.props.onDragonDrop(data, this.state.newData);
+    this.props.onDragonDrop(data);
   }
 
   renderEvents() {
