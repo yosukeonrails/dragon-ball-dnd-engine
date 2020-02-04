@@ -112,6 +112,10 @@ class ScheduleWeek extends React.Component {
 
       return (
         <DragonElement
+          styleData={{
+            height: height,
+            top: topPosition
+          }}
           id={event.id}
           itemData={event}
           child={eventComponent}
