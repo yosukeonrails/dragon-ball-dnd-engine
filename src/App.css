@@ -123,6 +123,11 @@
   padding: 5px;
   width: 70px;
   position: absolute;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 .event p {
   margin: 0;
