@@ -286,13 +286,13 @@ class ScheduleApp extends React.Component {
         <div className="schedule-app-top">
         <div className="schedule-app-gmc"></div>
         <div className="schedule-app-week-marker-container">
+          <div className="schedule-app-week-marker"><h1>Sun</h1></div>
           <div className="schedule-app-week-marker"><h1>Mon</h1></div>
-          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
-          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
-          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
-          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
-          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
-          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
+          <div className="schedule-app-week-marker"><h1>Tue</h1></div>
+          <div className="schedule-app-week-marker"><h1>Wed</h1></div>
+          <div className="schedule-app-week-marker"><h1>Thu</h1></div>
+          <div className="schedule-app-week-marker"><h1>Fri</h1></div>
+          <div className="schedule-app-week-marker"><h1>Sat</h1></div>
         </div>
         </div>
           <div className="schedule-app">

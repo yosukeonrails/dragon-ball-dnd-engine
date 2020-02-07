@@ -147,10 +147,11 @@
 }
 .schedule-app-week-marker-container{
   width: 92%;
-  background-color: #2d2d2d;
+  background-color: #f2f3f5;
   height: 45px;
   display: flex;
   justify-content: space-between;
+  box-shadow: 3px 3px 1px 1px black;
 }
 
 .schedule-app-gmc{
@@ -164,12 +165,12 @@
 .schedule-app-week-marker{
   float: left;
   font-size: 10px;
-  color: white;
+  color: #656161;
   width: 14.28%;
-  box-sizing: border-box;
+  border-bottom: 1px solid #dadada;
   padding-top: 6px;
   text-align: center;
-  border-left: 1px solid white;
+  border-right: 1px solid rgb(187, 187, 187);
 }
 
 .schedule-app-week-marker h1{
