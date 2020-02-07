@@ -228,6 +228,7 @@ class ScheduleApp extends React.Component {
 
       for (let i = 0; i < 24; i++) {
         let quarter_hour = [];
+
         for (let i = 0; i < 4; i++) {
           let color = i === 3 ? "rgb(75, 102, 254)" : "#dadada";
 
@@ -268,10 +269,20 @@ class ScheduleApp extends React.Component {
   }
 
   render() {
+    let hourMarkers = [];
+
+    for (let i = 1; i < 24; i++) {
+      hourMarkers.push(
+        <div className="schedule-hour-marker">
+          <p>{i}</p>
+        </div>
+      );
+    }
     let makeCursorDisappear = this.state.noCursor ? { cursor: "none" } : null;
     return (
       <div style={makeCursorDisappear}>
         <div className="schedule-app-container">
+          <div className="schedule-hour-marker-container">{hourMarkers}</div>
           <div className="schedule-background">
             {this.renderWeekBackground()}
           </div>
