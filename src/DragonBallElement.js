@@ -24,6 +24,7 @@ class DragonBallElement extends React.Component {
   }
 
   handleMouseDown(e) {
+    e.preventDefault();
     let event = window.event;
 
     if (e.touches) {

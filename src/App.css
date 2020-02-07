@@ -61,7 +61,6 @@
 .background-15-minute {
   height: 24px;
   box-sizing: border-box;
-  border-top: 1px solid #dadada;
   border-right: 1px solid #dadada;
 }
 .schedule-background {
@@ -122,6 +121,11 @@
   padding: 5px;
   width: 70px;
   position: absolute;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 .event p {
   margin: 0;
