@@ -280,17 +280,33 @@ class ScheduleApp extends React.Component {
     }
     let makeCursorDisappear = this.state.noCursor ? { cursor: "none" } : null;
     return (
-      <div style={makeCursorDisappear}>
-        <div className="schedule-app-container">
-          <div className="schedule-hour-marker-container">{hourMarkers}</div>
-          <div className="schedule-background">
-            {this.renderWeekBackground()}
+      <div>
+
+        <div className="schedule-app-container" style={makeCursorDisappear}>
+        <div className="schedule-app-top">
+        <div className="schedule-app-gmc"></div>
+        <div className="schedule-app-week-marker-container">
+          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
+          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
+          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
+          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
+          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
+          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
+          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
+        </div>
+        </div>
+          <div className="schedule-app">
+            <div className="schedule-hour-marker-container">{hourMarkers}</div>
+            <div className="schedule-background">
+              {this.renderWeekBackground()}
+            </div>
+            {/* <div className="schedule-container">
+              {this.renderEventContainer()}
+            </div> */}
           </div>
-          {/* <div className="schedule-container">
-            {this.renderEventContainer()}
-          </div> */}
         </div>
       </div>
+
     );
   }
 }
