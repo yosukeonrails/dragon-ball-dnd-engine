@@ -60,13 +60,16 @@ class DragonElement extends React.Component {
       let differenceX = x - this.state.initialLeft - window.scrollX;
 
       let previous_y_movement = this.state.y_movement;
+      let previous_x_movement = this.state.x_movement;
+
       let y_movement = Math.floor(
         (differenceY - this.state.initialTop) / this.props.increment.y
       );
 
       let x_movement = Math.floor(differenceX / measurements.width);
 
-      let previous_y = this.state.elementY;
+      let previous_y_element = this.state.elementY;
+      let previous_X_element = this.state.elementX;
 
       let realPositionOfY =
         this.state.initialTop + y_movement * this.props.increment.y;
@@ -74,14 +77,22 @@ class DragonElement extends React.Component {
         this.state.initialLeft + x_movement * measurements.width;
 
       if (y < this.state.borderTopLimit) {
-        realPositionOfY = previous_y;
+        realPositionOfY = previous_y_element;
         y_movement = previous_y_movement;
       }
 
       if (realPositionOfX < this.state.leftBorderLimit) {
         realPositionOfX = this.state.leftBorderLimit;
-        x_movement = 0;
+        x_movement = previous_x_movement;
       }
+
+      if (x > this.state.rightBorderLimit) {
+        realPositionOfX = previous_X_element;
+        x_movement = previous_x_movement;
+      }
+
+      // console.log(realPositionOfY);
+      // console.log(this.state.bottomBorderLimit);
 
       this.setState({
         elementX: realPositionOfX,
@@ -96,8 +107,13 @@ class DragonElement extends React.Component {
   handleMouseDown(e) {
     let event = window.event;
     console.log(this.props.styleData);
+
     let borderElement = document
       .getElementsByClassName("schedule-background")[0]
+      .getBoundingClientRect();
+
+    let specialCaseBorderLimit = document
+      .getElementsByClassName("schedule-app-container")[0]
       .getBoundingClientRect();
 
     if (e.touches) {
@@ -119,7 +135,8 @@ class DragonElement extends React.Component {
       initialTop: measurements.top,
       leftBorderLimit: borderElement.left,
       borderTopLimit: borderElement.top,
-      borderWidth: borderElement.width
+      rightBorderLimit: borderElement.right,
+      bottomBorderLimit: specialCaseBorderLimit.bottom
     });
   }
 
