@@ -10,7 +10,8 @@ class DragonElement extends React.Component {
       elementY: null,
       dragging: false,
       elementBeingDragged: false,
-      mouseIsOut: false
+      mouseIsOut: false,
+      elementDragged: false
     };
 
     this.mouseIsUp = this.mouseIsUp.bind(this);
@@ -38,7 +39,9 @@ class DragonElement extends React.Component {
 
   moveMouse(e) {
     let { elementBeingDragged } = this.state;
+
     let measurements = this.getMeasurements();
+
     if (elementBeingDragged && measurements) {
       if (elementBeingDragged.id === this.props.id) {
         console.log(this.props.id);
@@ -56,20 +59,34 @@ class DragonElement extends React.Component {
       let differenceY = y - this.props.styleData.top - window.scrollY;
       let differenceX = x - this.state.initialLeft - window.scrollX;
 
+      let previous_y_movement = this.state.y_movement;
       let y_movement = Math.floor(
         (differenceY - this.state.initialTop) / this.props.increment.y
       );
 
       let x_movement = Math.floor(differenceX / measurements.width);
 
+      let previous_y = this.state.elementY;
+
       let realPositionOfY =
         this.state.initialTop + y_movement * this.props.increment.y;
       let realPositionOfX =
         this.state.initialLeft + x_movement * measurements.width;
 
+      if (y < this.state.borderTopLimit) {
+        realPositionOfY = previous_y;
+        y_movement = previous_y_movement;
+      }
+
+      if (realPositionOfX < this.state.leftBorderLimit) {
+        realPositionOfX = this.state.leftBorderLimit;
+        x_movement = 0;
+      }
+
       this.setState({
         elementX: realPositionOfX,
         elementY: realPositionOfY,
+        elementDragged: true,
         x_movement,
         y_movement
       });
@@ -79,6 +96,10 @@ class DragonElement extends React.Component {
   handleMouseDown(e) {
     let event = window.event;
     console.log(this.props.styleData);
+    let borderElement = document
+      .getElementsByClassName("schedule-background")[0]
+      .getBoundingClientRect();
+
     if (e.touches) {
       event = e.touches[0];
     }
@@ -95,7 +116,10 @@ class DragonElement extends React.Component {
       elementX: measurements.left,
       elementY: measurements.top,
       initialLeft: measurements.left,
-      initialTop: measurements.top
+      initialTop: measurements.top,
+      leftBorderLimit: borderElement.left,
+      borderTopLimit: borderElement.top,
+      borderWidth: borderElement.width
     });
   }
 
@@ -138,6 +162,7 @@ class DragonElement extends React.Component {
 
     let { itemData, parentClass, id, increment } = this.props;
     let {
+      elementDragged,
       elementX,
       elementY,
       elementBeingDragged,
@@ -148,6 +173,10 @@ class DragonElement extends React.Component {
       x_movement,
       y_movement
     } = this.state;
+
+    if (!elementDragged) {
+      return;
+    }
 
     let data = {
       itemData,
@@ -171,7 +200,8 @@ class DragonElement extends React.Component {
         elementBeingDragged: null,
         elementY: null,
         elementX: null,
-        mouseIsOut: false
+        mouseIsOut: false,
+        elementDragged: false
       });
     }
   }

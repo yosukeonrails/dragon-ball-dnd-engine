@@ -171,23 +171,15 @@ class ScheduleApp extends React.Component {
     return { h: h, m: m };
   };
 
-  getHourDataByData(data) {
-    // let weekMovement =
-    //   (-1 *
-    //     (updateEvent.initial_left_position -
-    //       updateEvent.left_position_of_ghost)) /
-    //   updateEvent.increment.x;
-
-    let originalTotalMinutes =
-      data.elementBeingDragged.dateTime.time.h * 60 +
-      data.elementBeingDragged.dateTime.time.m;
+  getHourDataByDataTime(h, m, y_movement) {
+    let originalTotalMinutes = h * 60 + m;
     console.log(originalTotalMinutes);
 
     // let difference =
     //   (updateEvent.top_position_of_ghost - updateEvent.initial_top_position) /
     //   this.props.minuteHeight;
 
-    let totalMinutes = originalTotalMinutes + data.y_movement * 15;
+    let totalMinutes = originalTotalMinutes + y_movement * 15;
 
     return this.convertMinutesToHourObject(totalMinutes);
   }
@@ -206,7 +198,8 @@ class ScheduleApp extends React.Component {
 
     let newEvents = [...this.state.events];
     console.log(newEvents);
-    let hourObject = this.getHourDataByData(data);
+    let { h, m } = data.elementBeingDragged.dateTime.time;
+    let hourObject = this.getHourDataByDataTime(h, m, data.y_movement);
 
     newEvents[index].dateTime.time.h = hourObject.h;
     newEvents[index].dateTime.time.m = hourObject.m;
@@ -281,20 +274,33 @@ class ScheduleApp extends React.Component {
     let makeCursorDisappear = this.state.noCursor ? { cursor: "none" } : null;
     return (
       <div>
-
         <div className="schedule-app-container" style={makeCursorDisappear}>
-        <div className="schedule-app-top">
-        <div className="schedule-app-gmc"></div>
-        <div className="schedule-app-week-marker-container">
-          <div className="schedule-app-week-marker"><h1>Sun</h1></div>
-          <div className="schedule-app-week-marker"><h1>Mon</h1></div>
-          <div className="schedule-app-week-marker"><h1>Tue</h1></div>
-          <div className="schedule-app-week-marker"><h1>Wed</h1></div>
-          <div className="schedule-app-week-marker"><h1>Thu</h1></div>
-          <div className="schedule-app-week-marker"><h1>Fri</h1></div>
-          <div className="schedule-app-week-marker"><h1>Sat</h1></div>
-        </div>
-        </div>
+          <div className="schedule-app-top">
+            <div className="schedule-app-gmc"></div>
+            <div className="schedule-app-week-marker-container">
+              <div className="schedule-app-week-marker">
+                <h1>Sun</h1>
+              </div>
+              <div className="schedule-app-week-marker">
+                <h1>Mon</h1>
+              </div>
+              <div className="schedule-app-week-marker">
+                <h1>Tue</h1>
+              </div>
+              <div className="schedule-app-week-marker">
+                <h1>Wed</h1>
+              </div>
+              <div className="schedule-app-week-marker">
+                <h1>Thu</h1>
+              </div>
+              <div className="schedule-app-week-marker">
+                <h1>Fri</h1>
+              </div>
+              <div className="schedule-app-week-marker">
+                <h1>Sat</h1>
+              </div>
+            </div>
+          </div>
           <div className="schedule-app">
             <div className="schedule-hour-marker-container">{hourMarkers}</div>
             <div className="schedule-background">
@@ -306,7 +312,6 @@ class ScheduleApp extends React.Component {
           </div>
         </div>
       </div>
-
     );
   }
 }

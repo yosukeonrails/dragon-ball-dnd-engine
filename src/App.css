@@ -31,18 +31,17 @@
 ::-webkit-scrollbar-track {
   background-color: rgb(255, 255, 255);
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(218, 217, 217); 
+  background: rgb(218, 217, 217);
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #808080ec; 
+  background: #808080ec;
 }
-
 
 .box {
   float: left;
@@ -116,15 +115,14 @@
   margin-right: auto;
 }
 
-.schedule-app-container{
+.schedule-app-container {
   height: 90vh;
   margin-left: auto;
   width: 80%;
   overflow: scroll;
   margin-right: auto;
-  
 }
-.schedule-app-top{
+.schedule-app-top {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -133,10 +131,9 @@
   overflow: scroll;
 }
 
-.schedule-app-top{
+.schedule-app-top {
   overflow-x: hidden; /* Hide horizontal scrollbar */
 }
-
 
 .schedule-app {
   margin-left: auto;
@@ -144,17 +141,17 @@
   height: 2400px;
   overflow: hidden;
   border-radius: 10px;
+  padding-top: 45px;
 }
-.schedule-app-week-marker-container{
+.schedule-app-week-marker-container {
   width: 92%;
   background-color: #f2f3f5;
   height: 45px;
   display: flex;
   justify-content: space-between;
-  box-shadow: 3px 3px 1px 1px black;
 }
 
-.schedule-app-gmc{
+.schedule-app-gmc {
   width: 8%;
   height: 45px;
   background-color: #ecececc2;
@@ -162,7 +159,7 @@
   float: left;
 }
 
-.schedule-app-week-marker{
+.schedule-app-week-marker {
   float: left;
   font-size: 10px;
   color: #656161;
@@ -173,7 +170,7 @@
   border-right: 1px solid rgb(187, 187, 187);
 }
 
-.schedule-app-week-marker h1{
+.schedule-app-week-marker h1 {
   text-align: center;
   font-size: 12px;
 }
@@ -211,7 +208,6 @@
   float: left;
   height: 2305px;
   max-width: 70px;
-  padding-top: 45px;
 }
 .schedule-hour-marker {
   height: 96px;
@@ -237,5 +233,4 @@
   float: left;
   justify-content: center;
   background-color: white;
-  padding-top: 45px;
 }
